@@ -10,17 +10,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Function to generate a language model response based on user input and selected options
-def getLLMResponse(query, age_option, tasktype_option):
-    """
-    Generate a response using OpenAI's GPT-3.5-turbo model.
-    Returns:
-    response (str): The generated response from the language model.
-    """
+def getGenResponse(query, age_option, tasktype_option):
+     """
+     Generate a response using OpenAI's GPT-3.5-turbo model.
+     Returns:
+     response (str): The generated response from the language model.
+     """
 
-    # Initialize OpenAI GPT-3.5-turbo model with specified parameters
-    llm = OpenAI(temperature=.9, model="gpt-3.5-turbo-instruct")
+     # Initialize OpenAI GPT-3.5-turbo model with specified parameters
+     llm = OpenAI(temperature=.9, model="gpt-3.5-turbo-instruct")
 
-    if profession_option=="Artist":  # Dreamy and Passionate Artist
+     if profession_option=="Artist":  # Dreamy and Passionate Artist
 
           examples = [
           {
@@ -102,60 +102,60 @@ def getLLMResponse(query, age_option, tasktype_option):
           ]
 
 
-    # Template for formatting the examples and responses
-    example_template = """
-    Question: {query}
-    Response: {answer}
-    """
+     # Template for formatting the examples and responses
+     example_template = """
+     Question: {query}
+     Response: {answer}
+     """
 
-    # Create a prompt template using the example format
-    example_prompt = PromptTemplate(
-        input_variables=["query", "answer"],  # Variables to replace in the template
-        template=example_template  # Example question-answer format
-    )
+     # Create a prompt template using the example format
+     example_prompt = PromptTemplate(
+          input_variables=["query", "answer"],  # Variables to replace in the template
+          template=example_template  # Example question-answer format
+     )
 
-    # Prefix and suffix to customize the final prompt to the model
-    prefix = """You are a {template_ageoption}, and {template_tasktype_option}:
-    Here are some examples:
-    """
-    suffix = """
-    Question: {template_userInput}
-    Response: """
+     # Prefix and suffix to customize the final prompt to the model
+     prefix = """You are a {template_ageoption}, and {template_tasktype_option}:
+     Here are some examples:
+     """
+     suffix = """
+     Question: {template_userInput}
+     Response: """
 
-    # Automatically selects examples based on the length of the query
-    example_selector = LengthBasedExampleSelector(
-        examples=examples,  # List of pre-made examples
-        example_prompt=example_prompt,  # Format of the examples
-        max_length=200  # Maximum length of the examples in tokens
-    )
+     # Automatically selects examples based on the length of the query
+     example_selector = LengthBasedExampleSelector(
+          examples=examples,  # List of pre-made examples
+          example_prompt=example_prompt,  # Format of the examples
+          max_length=200  # Maximum length of the examples in tokens
+     )
 
-    # Few-shot prompt template that uses selected examples to build the prompt for the language model
-    new_prompt_template = FewShotPromptTemplate(
-        example_selector=example_selector,  # Automatically select appropriate examples
-        example_prompt=example_prompt,  # Format of examples
-        prefix=prefix,  # Text before the examples
-        suffix=suffix,  # Text after the examples
-        input_variables=["template_userInput", "template_ageoption", "template_tasktype_option"],
-        example_separator="\n"  # Separate each example with a new line
-    )
+     # Few-shot prompt template that uses selected examples to build the prompt for the language model
+     new_prompt_template = FewShotPromptTemplate(
+          example_selector=example_selector,  # Automatically select appropriate examples
+          example_prompt=example_prompt,  # Format of examples
+          prefix=prefix,  # Text before the examples
+          suffix=suffix,  # Text after the examples
+          input_variables=["template_userInput", "template_ageoption", "template_tasktype_option"],
+          example_separator="\n"  # Separate each example with a new line
+     )
 
-    # Format the prompt with the user's query and options
-    formatted_prompt = new_prompt_template.format(
-        template_userInput=query,
-        template_ageoption=age_option,
-        template_tasktype_option=tasktype_option
-    )
-    
-    # Print the generated prompt for reference (can be removed in production)
-    print(formatted_prompt)
+     # Format the prompt with the user's query and options
+     formatted_prompt = new_prompt_template.format(
+          template_userInput=query,
+          template_ageoption=age_option,
+          template_tasktype_option=tasktype_option
+     )
+     
+     # Print the generated prompt for reference (can be removed in production)
+     print(formatted_prompt)
 
-    # Invoke the language model to get the response based on the formatted prompt
-    response = llm.invoke(formatted_prompt)
+     # Invoke the language model to get the response based on the formatted prompt
+     response = llm.invoke(formatted_prompt)
 
-    # Print the response (for debugging or review)
-    print(response)
+     # Print the response (for debugging or review)
+     print(response)
 
-    return response  # Return the generated response
+     return response  # Return the generated response
 
 # Hardcoded inputs (replacing user input from Streamlit interface)
 query = "What are your dreams?"  # User's question
@@ -163,4 +163,4 @@ age_option = "Scientist"  # Select persona: 'Artist', 'Chef', or 'Scientist'
 tasktype_option = "Write a project report"  # Select task: 'Write a project report', 'Create a technical tweet', or 'Write a research summary'
 
 # Call the function with the hardcoded inputs
-getLLMResponse(query, age_option, tasktype_option)
+getGenResponse(query, age_option, tasktype_option)
