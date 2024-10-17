@@ -13,7 +13,7 @@ embeddings = OpenAIEmbeddings()
 from langchain.document_loaders.csv_loader import CSVLoader
 
 # File path to the CSV, located in the 'data' folder outside the 'src' folder
-csv_file_path = '../data/myData.csv'
+csv_file_path = '../data/the_data.csv'
 
 # Load data from the CSV file
 loader = CSVLoader(file_path=csv_file_path, csv_args={
@@ -33,7 +33,7 @@ print(data)
 db = FAISS.from_documents(data, embeddings)
 
 # user input for similarity search
-user_input = "apple"  
+user_input = "watch"  
 
 # Perform similarity search using the hardcoded input
 docs = db.similarity_search(user_input)

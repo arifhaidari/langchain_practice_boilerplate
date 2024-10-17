@@ -1,9 +1,11 @@
 openai
 tiktoken
 langchain
+langchain-openai
 chromadb
 sentence_transformers
 unstructured
 pypdf
 pinecone-client
 python-dotenv
+faiss-cpu
