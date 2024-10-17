@@ -1,3 +1,9 @@
 openai
 tiktoken
 langchain
+chromadb
+sentence_transformers
+unstructured
+pypdf
+pinecone-client
+python-dotenv
