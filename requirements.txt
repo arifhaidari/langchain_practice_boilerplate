@@ -9,3 +9,5 @@ pypdf
 pinecone-client
 python-dotenv
 faiss-cpu
+langchain_experimental
+tabulate
